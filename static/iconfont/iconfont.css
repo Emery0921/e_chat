@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3471321 */
+  src: url('iconfont.woff2?t=1655440613781') format('woff2'),
+        url('iconfont.woff?t=1655440613781') format('woff'),
+        url('iconfont.ttf?t=1655440613781') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 30px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tianjiahaoyou:before {
+  content: "\e65e";
+}

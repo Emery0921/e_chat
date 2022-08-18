@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        /*
+    apply和call都可以改变this的指向
+    函数的调用，改变this的指向
+    */
+        function f1(x, y) {
+            console.log((x + y) + "======" + this);
+            return "这是函数的返回值";
+        }
+        //apply和call调用
+        var r1 = f1.apply(null, [1, 2]); //此时f1中的this是window
+        console.log(r1);
+        var r2 = f1.call(null, 1, 2);
+        console.log(r2);
+        console.log("=============");
+        //改变this的指向
+        var obj = {
+            sex: '男'
+        };
+        //本来f1函数是window对象，但是传入obj之后，f1函数此时就是obj对象的
+        var r1 = f1.apply(obj, [1, 2]); //此时f1中的this是obj
+        console.log(r1);
+        var r2 = f1.call(obj, 1, 2); //此时f1中的this是obj
+        console.log(r2);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
