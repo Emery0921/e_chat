@@ -34,11 +34,54 @@
             }
             
         }
+        ,{
+            "path" : "pages/forget_password/forget_password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+                "enablePullDownRefresh": false,
+				 "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/serach/serach",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索页",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "grey",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/images/聊天.png",
+			// "selectedIconPath": "static/image/icon_component_HL.png",
+			"text": "聊天"
+		}, {
+			"pagePath": "pages/API/index",
+			"iconPath": "static/images/Group 2.png",
+			// "selectedIconPath": "static/image/icon_API_HL.png",
+			"text": "e_chat"
+		},
+		{
+			"pagePath": "pages/login/login",
+			"iconPath": "static/images/Group 4.png",
+			// "selectedIconPath": "static/image/icon_API_HL.png",
+			"text": "未来"
+		}]
 	}
 }

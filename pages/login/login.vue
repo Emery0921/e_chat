@@ -25,6 +25,9 @@
 					</uni-forms-item>
 				</uni-forms>
 			</view>
+			<view class="forget-password" @click="goForPassPage">
+				忘记密码
+			</view>
 			<view class="btn-login">
 				<button @click="submit">登录</button>
 			</view>
@@ -103,6 +106,12 @@
 				uni.navigateTo({
 					url:'/pages/register/register'
 				});
+			},
+			// 跳转到修改密码页面
+			goForPassPage(){
+				uni.navigateTo({
+					url:'/pages/forget_password/forget_password'
+				})
 			}
 		},
 	}
@@ -176,13 +185,17 @@
 			font-weight: 400;
 			margin-bottom: 30px;
 		} 	
-		
+		.forget-password{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 		.btn-login{
 			width: 100%;
 			height: 48px;
 			background: #FFE431;
 			border-radius: 24px;
-			margin: 60px 0;
+			margin: 30px 0;
 			button{
 				width: 100%;
 				height: 100%;

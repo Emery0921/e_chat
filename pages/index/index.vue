@@ -42,7 +42,11 @@
 					what are you doingwhat are you doingwhat are you doingwhat are you doing
 				</view>
 			</view>
+			
 		</view>
+		<uni-popup ref="message" type="message" style='text-align: center;'>
+			<uni-popup-message type="error" message="请登录" :duration="2000"></uni-popup-message>
+		</uni-popup>
 	</view>
 </template>
 
@@ -56,6 +60,17 @@
 			}
 		},
 		onLoad() {
+			// const token  = localStorage.getItem('token')
+			// if(!token){
+			// 	console.log(this.$refs)
+			// 	// return 
+			// 	// this.$refs.message.open()
+			// 	setTimeout(()=> {
+			// 		uni.navigateTo({
+			// 			url:'/pages/login/login'
+			// 		})
+			// 	}, 2000);
+			// }
 			this.getFriendList()
 		},
 		methods: {
