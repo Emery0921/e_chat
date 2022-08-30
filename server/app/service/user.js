@@ -44,6 +44,7 @@ class UserService extends Service {
       $or: [{ userName: data.userInfo }, { email: data.userInfo }],
     }
     const oldUser = await ctx.model.User.findOne(loginCon)
+    console.log(oldUser, "oldUser")
     if (!oldUser) {
       return {
         code: 1,
@@ -72,8 +73,7 @@ class UserService extends Service {
       msg: "登录成功",
       data: {
         token,
-        userName: oldUser.userName,
-        imgUrl: oldUser.imgUrl,
+        userInfo: oldUser,
       },
     }
   }

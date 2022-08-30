@@ -21,6 +21,7 @@ module.exports = (app) => {
       nickName: {
         //好友昵称
         type: "string",
+        default: "",
       },
       state: {
         type: "string",

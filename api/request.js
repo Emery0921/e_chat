@@ -10,7 +10,7 @@ instance.interceptors.request.use((config)=>{
 	if(token){
 		config.headers['Authorization'] = "Bearer " + token
 	}
-	console.log(config,'config')
+	// console.log(config,'config')
 	return config
 },(error)=>{
 	return Promise.reject(error)

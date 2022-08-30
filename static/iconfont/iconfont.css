@@ -1,18 +1,32 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3471321 */
-  src: url('iconfont.woff2?t=1655440613781') format('woff2'),
-        url('iconfont.woff?t=1655440613781') format('woff'),
-        url('iconfont.ttf?t=1655440613781') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_3471321_6t7aynx475k.woff2?t=1661395964431') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3471321_6t7aynx475k.woff?t=1661395964431') format('woff'),
+       url('//at.alicdn.com/t/c/font_3471321_6t7aynx475k.ttf?t=1661395964431') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 30px;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-tianjiahaoyou:before {
-  content: "\e65e";
+.icon-bianji:before {
+  content: "\e600";
+  margin-left: 10px;
+  
+}
+
+.icon-xingbienv:before {
+  content: "\e605";
+  margin-left: 10px;
+}
+
+.icon-xingbienan:before {
+  content: "\e606";
+  color: aqua;
+  margin-left: 10px;
+  
 }

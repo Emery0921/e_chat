@@ -83,7 +83,7 @@
 					const result = await loginReq(postData)
 					if(result.code === 0){
 						localStorage.setItem('token',result.data.token)
-						localStorage.setItem('username',result.data.userName)
+						localStorage.setItem('userInfo',JSON.stringify(result.data.userInfo))
 						this.$refs.message.open()
 						setTimeout(()=> {
 							uni.navigateTo({

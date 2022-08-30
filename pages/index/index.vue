@@ -8,7 +8,7 @@
 				<image src="../../static/images/logo.png" mode=""></image>
 			</view>
 			<view class="top-bar-right">
-				<image src="../../static/images/search@2x.png" mode=""></image>
+				<image src="../../static/images/search@2x.png" mode="" @click="goSearchPage"></image>
 				<image src="../../static/images/add@2x.png" mode=""></image>
 			</view>
 		</view>
@@ -86,6 +86,12 @@
 					this.friendList = res.data
 				}
 				
+			},
+			// 跳转到搜索页
+			goSearchPage(){
+				uni.navigateTo({
+					url:'/pages/serach/serach'
+				})
 			}
 		}
 	}

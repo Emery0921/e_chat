@@ -28,8 +28,8 @@ class GroupService extends Service {
         $regex: new RegExp(data.userInfo, "i"),
       },
     }
-    const totalGroups = await ctx.model.User.find(queryCon).countDocuments()
-    const groups = await ctx.model.User.find(queryCon)
+    const totalGroups = await ctx.model.Group.find(queryCon).countDocuments()
+    const groups = await ctx.model.Group.find(queryCon)
     console.log(totalGroups, 2)
     return {
       code: 0,
@@ -39,7 +39,7 @@ class GroupService extends Service {
     }
   }
   //按要求获取群列表
-  async getUserList(data) {
+  async getGroupList(data) {
     const { ctx } = this
     const queryCon = {
       userId: data.userId,

@@ -54,6 +54,26 @@
             }
             
         }
+        ,{
+            "path" : "pages/user_details/user_details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户详情页",
+                "enablePullDownRefresh": false,
+				 "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user_info/user_info",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人中心页",
+                "enablePullDownRefresh": false,
+				 "navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
