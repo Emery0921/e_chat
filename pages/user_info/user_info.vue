@@ -9,18 +9,20 @@
 						<u-avatar src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg" shape="square"></u-avatar>
 					</view>
 				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">签名</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.desc || '这个人很懒，没有个性签名' }}</view> -->
-				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">注册</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.registerTime | formatTime }}</view> -->
-				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">昵称</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.userName }}</view> -->
-				</u-navbar>
+				<u-form-item label="签名" borderBottom @click="showSignature = true">
+					<u--input
+						v-model="formData.userCenterInfo.desc || '这个人很懒，没有个性签名。'"
+						disabled
+						disabledColor="#ffffff"
+						placeholder="请输入个性签名"
+						border="none"
+					></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
+				<u-form-item label="注册" borderBottom>{{ register_time }}</u-form-item>
+				<u-form-item label="昵称" prop="userCenterInfo.userName" borderBottom>
+					<u--input placeholder="请输入昵称" border="none" v-model="formData.userCenterInfo.userName"></u--input>
+				</u-form-item>
 				<u-form-item label="性别" prop="userCenterInfo.sex" borderBottom @click="showSex = true">
 					<u--input
 						v-model="formData.userCenterInfo.sex"
@@ -41,22 +43,22 @@
 					></u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">电话</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.phone }}</view> -->
-				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">邮箱</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.email }}</view> -->
-				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">地区</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.address }}</view> -->
-				</u-navbar>
-				<u-navbar @leftClick="leftClick" :autoBack="true" rightIcon="arrow-right" border class="bar">
-					<view class="u-nav-slot" slot="left">密码</view>
-					<!-- <view class="u-nav-slot" slot="center">{{ userCenterInfo.password }}</view> -->
-				</u-navbar>
+				<u-form-item label="电话" prop="userCenterInfo.phone" borderBottom>
+					<u--input placeholder="请输入电话" border="none" v-model="formData.userCenterInfo.phone"></u--input>
+				</u-form-item>
+				<u-form-item label="邮箱" prop="userCenterInfo.email" borderBottom>
+					<u--input placeholder="请输入邮箱" border="none" v-model="formData.userCenterInfo.email"></u--input>
+				</u-form-item>
+				<u-form-item label="地址" borderBottom @click="showAddress = true">
+					<u--input
+						v-model="formData.userCenterInfo.address"
+						disabled
+						disabledColor="#ffffff"
+						placeholder="请选择地区"
+						border="none"
+					></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
 			</u--form>
 		</view>
 
@@ -72,6 +74,42 @@
 			:minDate="0"
 			:maxDate="new Date().getTime()"
 		></u-datetime-picker>
+
+		<u-modal :show="showSignature" title="修改个签" showCancelButton @confirm="showSignature = false" @cancel="showSignature = false">
+			<view class="slot-content">
+				<u-textarea confirmType="done" v-model="formData.userCenterInfo.desc" placeholder="编辑个签,展示我的独特态度." count></u-textarea>
+			</view>
+		</u-modal>
+
+		<u-modal :show="showAddress" title="所在地" showCancelButton @confirm="showAddress = false" @cancel="showAddress = false">
+			<view class="slot-content">
+				<view class="top"><u--text type="primary" text="使用当前位置"></u--text></view>
+				<view class="bottom">
+					<u-form labelPosition="left" :model="addressData" :rules="rules" ref="form1">
+						<u-form-item label="国家" borderBottom @click="showAddress = true">
+							<u--input
+								v-model="addressData.country"
+								disabled
+								disabledColor="#ffffff"
+								placeholder="请选择国家"
+								border="none"
+							></u--input>
+							<u-icon slot="right" name="arrow-right"></u-icon>
+						</u-form-item>
+						<u-form-item label="省市" borderBottom @click="showAddress = true">
+							<u--input
+								v-model="addressData.province"
+								disabled
+								disabledColor="#ffffff"
+								placeholder="请选择地区"
+								border="none"
+							></u--input>
+							<u-icon slot="right" name="arrow-right"></u-icon>
+						</u-form-item>
+					</u-form>
+				</view>
+			</view>
+		</u-modal>
 	</view>
 </template>
 
@@ -84,9 +122,15 @@ export default {
 			formData: {
 				userCenterInfo: {}
 			},
+			addressData: {
+				country: '', //国家
+				province: '' //省市
+			},
 			value1: '',
 			showSex: false, //展示性别修改框
 			showBirth: false, //展示生日修改框
+			showSignature: false, //展示签名修改框
+			showAddress: false, //展示地址页面
 			rules: {
 				'userCenterInfo.sex': {
 					type: 'string',
@@ -94,7 +138,45 @@ export default {
 					required: true,
 					message: '请选择男或女',
 					trigger: ['blur', 'change']
-				}
+				},
+				'userCenterInfo.userName': {
+					type: 'string',
+					max: 6,
+					required: true,
+					message: '请输入正确的昵称',
+					trigger: ['blur', 'change']
+				},
+				'userCenterInfo.phone': [
+					{
+						type: 'string',
+						required: true,
+						message: '请输入号码',
+						trigger: ['blur', 'change']
+					},
+					{
+						validator: (rule, value, callback) => {
+							return uni.$u.test.mobile(value)
+						},
+						message: '请输入正确的号码',
+						trigger: ['blur']
+					}
+				],
+				'userCenterInfo.email': [
+					{
+						type: 'string',
+						required: true,
+						message: '请输入邮箱',
+						trigger: ['blur', 'change']
+					},
+					{
+						validator: (rule, value, callback) => {
+							const regEmail = /^[a-zA-Z0-9]+([-_.][A-Za-zd]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
+							return regEmail.test(value)
+						},
+						message: '请输入正确的邮箱',
+						trigger: ['blur']
+					}
+				]
 			},
 			actionsSex: [
 				{
@@ -118,6 +200,11 @@ export default {
 	onReady() {
 		// 微信小程序需要用此写法
 		this.$refs.datetimePicker.setFormatter(this.formatter)
+	},
+	computed: {
+		register_time() {
+			return dayjs(this.formData.userCenterInfo.registerTime * 1000).format('YYYY-MM-DD')
+		}
 	},
 	methods: {
 		leftClick() {
@@ -187,6 +274,9 @@ export default {
 		.bar {
 			margin-bottom: 10px;
 		}
+	}
+	.slot-content {
+		width: 100%;
 	}
 }
 </style>
