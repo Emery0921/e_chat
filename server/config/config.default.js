@@ -39,7 +39,7 @@ module.exports = (appInfo) => {
     publicPath: "app/public/images",
   }
   config.security = {
-    domainWhiteList: ["http://localhost:8080"],
+    domainWhiteList: ["http://localhost:8081"],
     csrf: {
       enable: false,
     },
