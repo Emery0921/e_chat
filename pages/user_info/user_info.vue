@@ -1,28 +1,12 @@
 <template>
 	<view class="container">
-		<view class="header">
-			<u-navbar
-				title="个人中心"
-				@leftClick="leftClick"
-				:autoBack="true"
-				fixed
-				border
-			></u-navbar>
-		</view>
+		<view class="header"><u-navbar title="个人信息" :autoBack="true" fixed border></u-navbar></view>
 		<view class="main">
 			<u--form labelPosition="left" :model="formData" :rules="rules" ref="form1">
-				<u-navbar
-					@leftClick="leftClick"
-					:autoBack="true"
-					rightIcon="arrow-right"
-					border
-					class="bar"
-				>
-					<view class="u-nav-slot" slot="left">头像</view>
-					<view class="u-nav-slot" slot="center">
-						<u-avatar shape="square"></u-avatar>
-					</view>
-				</u-navbar>
+				<u-form-item label="头像" borderBottom>
+					<u--input v-model="formData.userCenterInfo.imgUrl" disabled disabledColor="#ffffff" border="none"></u--input>
+					<u-icon slot="right" name="arrow-right"></u-icon>
+				</u-form-item>
 				<u-form-item label="签名" borderBottom @click="showSignature = true">
 					<u--input
 						v-model="formData.userCenterInfo.desc || '这个人很懒，没有个性签名。'"
@@ -35,18 +19,9 @@
 				</u-form-item>
 				<u-form-item label="注册" borderBottom>{{ register_time }}</u-form-item>
 				<u-form-item label="昵称" prop="userCenterInfo.userName" borderBottom>
-					<u--input
-						placeholder="请输入昵称"
-						border="none"
-						v-model="formData.userCenterInfo.userName"
-					></u--input>
+					<u--input placeholder="请输入昵称" border="none" v-model="formData.userCenterInfo.userName"></u--input>
 				</u-form-item>
-				<u-form-item
-					label="性别"
-					prop="userCenterInfo.sex"
-					borderBottom
-					@click="showSex = true"
-				>
+				<u-form-item label="性别" prop="userCenterInfo.sex" borderBottom @click="showSex = true">
 					<u--input
 						v-model="formData.userCenterInfo.sex"
 						disabled
@@ -67,20 +42,12 @@
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 				<u-form-item label="电话" prop="userCenterInfo.phone" borderBottom>
-					<u--input
-						placeholder="请输入电话"
-						border="none"
-						v-model="formData.userCenterInfo.phone"
-					></u--input>
+					<u--input placeholder="请输入电话" border="none" v-model="formData.userCenterInfo.phone"></u--input>
 				</u-form-item>
 				<u-form-item label="邮箱" prop="userCenterInfo.email" borderBottom>
-					<u--input
-						placeholder="请输入邮箱"
-						border="none"
-						v-model="formData.userCenterInfo.email"
-					></u--input>
+					<u--input placeholder="请输入邮箱" border="none" v-model="formData.userCenterInfo.email"></u--input>
 				</u-form-item>
-				<u-form-item label="地址" borderBottom @click="getAddress">
+				<u-form-item label="地址" borderBottom @click="showAddress = true">
 					<u--input
 						v-model="formData.userCenterInfo.address"
 						disabled
@@ -90,16 +57,12 @@
 					></u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
+				<u-form-item><u-button type="primary" text="保存修改" @click="submit" color="#ffe431"></u-button></u-form-item>
+				<u-form-item borderBottom><u-button type="primary" text="退出登录" @click="logout" color="#ffe431"></u-button></u-form-item>
 			</u--form>
 		</view>
 
-		<u-action-sheet
-			:show="showSex"
-			:actions="actionsSex"
-			title="请选择性别"
-			@close="showSex = false"
-			@select="sexSelect"
-		></u-action-sheet>
+		<u-action-sheet :show="showSex" :actions="actionsSex" title="请选择性别" @close="showSex = false" @select="sexSelect"></u-action-sheet>
 		<u-datetime-picker
 			ref="datetimePicker"
 			:formatter="formatter"
@@ -112,20 +75,9 @@
 			:maxDate="new Date().getTime()"
 		></u-datetime-picker>
 
-		<u-modal
-			:show="showSignature"
-			title="修改个签"
-			showCancelButton
-			@confirm="showSignature = false"
-			@cancel="showSignature = false"
-		>
+		<u-modal :show="showSignature" title="修改个签" showCancelButton @confirm="showSignature = false" @cancel="showSignature = false">
 			<view class="slot-content">
-				<u-textarea
-					confirmType="done"
-					v-model="formData.userCenterInfo.desc"
-					placeholder="编辑个签,展示我的独特态度."
-					count
-				></u-textarea>
+				<u-textarea confirmType="done" v-model="formData.userCenterInfo.desc" placeholder="编辑个签,展示我的独特态度." count></u-textarea>
 			</view>
 		</u-modal>
 
@@ -134,11 +86,14 @@
 			title="所在地"
 			showCancelButton
 			@confirm="confirmPosition"
-			@cancel="showAddress = false"
+			@cancel="
+				showAddress = false
+				showProvince = false
+			"
 		>
 			<view class="slot-content">
-				<view class="top" @click="getPosition">
-					<u--text type="primary" text="使用当前位置" size="18px"></u--text>
+				<view class="top" @click="getPositionDetail">
+					<u-button type="primary" :loading="loading" loadingText="加载中" text="使用当前位置"></u-button>
 				</view>
 				<view class="bottom">
 					<u-form labelPosition="left" :model="addressData" :rules="rules" ref="form1">
@@ -170,19 +125,18 @@
 			ref="uPicker"
 			:columns="columns"
 			@confirm="confirm"
-			@close="showProvince = false"
+			@cancel="cancel"
 			@change="changeHandler"
 			closeOnClickOverlay
 			:defaultIndex="defaultArr"
 		></u-picker>
+		<u-notify ref="uNotify"></u-notify>
 	</view>
 </template>
 
 <script>
 import dayjs from 'dayjs'
-import { getUserDetailsReq } from '../../api/index.js'
-import { getPosition } from '@/utils/getPosition.js'
-import { getPositionReq } from '@/api/index.js'
+import { getPositionReq, getUserDetailsReq, getCurrentPositionReq, updateUserDetailsReq } from '@/api/index.js'
 export default {
 	data() {
 		return {
@@ -196,6 +150,7 @@ export default {
 			areas: [], //省市区的数据
 			labelList: [],
 			value1: '',
+			loading: false, //加载动画
 			showSex: false, //展示性别修改框
 			showBirth: false, //展示生日修改框
 			showSignature: false, //展示签名修改框
@@ -224,7 +179,7 @@ export default {
 						type: 'string',
 						required: true,
 						message: '请输入号码',
-						trigger: ['blur', 'change']
+						trigger: ['blur']
 					},
 					{
 						validator: (rule, value, callback) => {
@@ -262,13 +217,8 @@ export default {
 		}
 	},
 	onLoad() {
-		this.formData.userCenterInfo = JSON.parse(localStorage.getItem('userInfo'))
-		if (this.formData.userCenterInfo.sex === 'male') {
-			this.formData.userCenterInfo.sex = '男'
-		} else {
-			this.formData.userCenterInfo.sex = '女'
-		}
-		console.log(this.formData.userCenterInfo, 123)
+		this.userId = JSON.parse(localStorage.getItem('userInfo'))._id
+		this.getUserDetails()
 	},
 	onReady() {
 		// 微信小程序需要用此写法
@@ -280,37 +230,105 @@ export default {
 		}
 	},
 	methods: {
-		getPosition,
-		leftClick() {
-			uni.navigateBack({
-				delta: 1
-			})
-		},
-		// 获取用户详细信息
+		//获取用户详细信息
 		async getUserDetails() {
 			const res = await getUserDetailsReq(this.userId)
-			// console.log('res',res)
-			const { code, data } = res
-			if (code === 0) {
-				this.userInfo = data
+			console.log('res', res)
+			if (res.code === 0) {
+				this.formData.userCenterInfo = res.data
 			}
 		},
-		async getAddress() {
-			this.showAddress = true
-			const res = await getPositionReq(this.addressData.country)
-			this.areas = res.districts[0].districts
+		//获取定位
+		getPositionDetail() {
+			this.loading = true
+			const options = {
+				//可增加的4个配置参数
+				enableHighAccuracy: true, //高精度
+				timeout: 5000, //超时时间,以ms为单位
+				maximumAge: 24 * 60 * 60 * 1000 //位置缓存时间,以ms为单位
+			}
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError, options)
+			} else {
+				alert('无法获取地理位置')
+			}
+		},
+		//成功的回调
+		async onSuccess(position) {
+			console.log(position.coords, '位置')
+			// 返回用户位置
+			// 经度
+			let longitude = position.coords.longitude
+			// 纬度
+			let latitude = position.coords.latitude
+			let data = longitude + ',' + latitude
+			console.log('您的当前地址的经纬度：经度' + longitude + '，纬度' + latitude)
+			const res = await getCurrentPositionReq(data)
+			console.log('res', res)
+			if (res.status === '1') {
+				let p = res.regeocode.addressComponent.province
+				let d = res.regeocode.addressComponent.district
+				this.addressData.province = p + '-' + d
+				this.$refs.uNotify.show({
+					type: 'success',
+					message: '位置获取成功！'
+				})
+				this.loading = false
+			}
+		},
+		//失败的回调
+		onError(error) {
+			console.log('err', error)
+			switch (error.code) {
+				case 1:
+					this.$refs.uNotify.show({
+						type: 'error',
+						message: '位置服务被拒绝！'
+					})
+					break
+				case 2:
+					this.$refs.uNotify.show({
+						type: 'error',
+						message: '暂时获取不到位置信息！'
+					})
+					break
+				case 3:
+					this.$refs.uNotify.show({
+						type: 'error',
+						message: '获取信息超时！'
+					})
+					break
+				case 4:
+					this.$refs.uNotify.show({
+						type: 'error',
+						message: '未知错误！'
+					})
+					break
+			}
+		},
+
+		async getProvince() {
+			this.showProvince = true
+			if (this.areas.length === 0) {
+				const res = await getPositionReq(this.addressData.country)
+				this.areas = res.districts[0].districts
+			}
 			console.log('res', this.areas)
+			this.columnData = []
+			this.columns = []
+			this.defaultArr = []
 			let arr = []
 			let childarr = []
 			let childrenarr = []
 			let brr = []
 			let crr = []
 			let drr = []
+			// console.log('arr', arr)
 			this.areas.forEach(item => {
 				arr.push(item.name)
 				childrenarr.push(item.districts)
 			})
-			console.log('arr', arr)
+			// console.log('arr', arr)
 			console.log('childrenarr', childrenarr)
 			for (let i = 0; i < childrenarr.length; i++) {
 				// 每循环一次push一个空数组来赋值
@@ -332,20 +350,29 @@ export default {
 				crr.push(item2.name)
 			})
 			this.columns.push(arr, childarr, crr)
-			console.log('drr', drr)
-			console.log('brr', brr)
+			// console.log('drr', drr)
+			// console.log('brr', brr)
 			this.columnData.push(brr, drr)
 		},
-		// 获取省份信息
-		async getProvince() {
-			this.showProvince = true
-		},
 		confirm(e) {
+			//过滤掉城区信息
+			if (e.value[1].indexOf('城区') !== -1) {
+				e.value.splice(1, 1)
+			}
+			console.log('value', e.value)
 			this.addressData.province = e.value.join('-')
+			this.columnData = []
+			this.columns = []
 			this.showProvince = false
 			this.defaultArr = e.indexs
 		},
+		cancel() {
+			this.columnData = []
+			this.columns = []
+			this.showProvince = false
+		},
 		changeHandler(e) {
+			console.log('e', e)
 			const {
 				columnIndex,
 				value,
@@ -365,6 +392,7 @@ export default {
 		confirmPosition() {
 			this.formData.userCenterInfo.address = this.addressData.province
 			this.showAddress = false
+			this.showProvince = false
 		},
 		sexSelect(e) {
 			this.formData.userCenterInfo.sex = e.name
@@ -387,6 +415,41 @@ export default {
 				return `${value}日`
 			}
 			return value
+		},
+		//保存个人信息的修改
+		async submit() {
+			const postData = {
+				...this.formData.userCenterInfo
+			}
+			console.log('data', postData)
+			for (let key in postData) {
+				if (postData[key] === '' && key !== 'desc' && key !== 'nickName') {
+					this.$refs.uNotify.show({
+						type: 'error',
+						message: '请将信息填写完整'
+					})
+					return
+				}
+			}
+			const res = await updateUserDetailsReq(postData, postData._id)
+			if (res.code === 0) {
+				this.$refs.uNotify.show({
+					type: 'success',
+					message: '修改成功！'
+				})
+			} else {
+				this.$refs.uNotify.show({
+					type: 'error',
+					message: res.msg
+				})
+			}
+		},
+		//退出登录
+		logout() {
+			localStorage.removeItem('token')
+			uni.navigateTo({
+				url: '/pages/login/login'
+			})
 		}
 	}
 }

@@ -4,16 +4,11 @@ module.exports = (app) => {
 	const UserSchema = new Schema({
 		sex: {
 			type: "string",
-			default: "male",
 		},
 		imgUrl: {
 			type: "string",
 			default: "user.png",
 			//默认头像
-		},
-		grade: {
-			type: "number",
-			default: null,
 		},
 		address: {
 			//地区
@@ -26,11 +21,11 @@ module.exports = (app) => {
 			default: "",
 		},
 		birth: {
-			type: "number",
+			type: "string",
 			default: null,
 		},
 		phone: {
-			type: "number",
+			type: "string",
 			default: null,
 		},
 		desc: {

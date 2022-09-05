@@ -1,80 +1,77 @@
 {
 	"easycom": {
-			"autoscan": true,
-			"custom": {
-				// uni-ui 规则如下配置
-				"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
-			}
-		},
+		"autoscan": true,
+		"custom": {
+			// uni-ui 规则如下配置
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		}
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app",
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/forget_password/forget_password",
+			"style": {
+				"navigationBarTitleText": "忘记密码",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/serach/serach",
+			"style": {
+				"navigationBarTitleText": "搜索页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/user_details/user_details",
+			"style": {
+				"navigationBarTitleText": "用户详情页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/user_info/user_info",
+			"style": {
+				"navigationBarTitleText": "个人中心页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "聊天页面",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
 		}
-	    ,{
-            "path" : "pages/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "登录页",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/register/register",
-            "style" :                                                                                    
-            {
-               "navigationBarTitleText": "注册页",
-               "enablePullDownRefresh": false,
-               "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/forget_password/forget_password",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "忘记密码",
-                "enablePullDownRefresh": false,
-				 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/serach/serach",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "搜索页",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user_details/user_details",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户详情页",
-                "enablePullDownRefresh": false,
-				 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user_info/user_info",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "个人中心页",
-                "enablePullDownRefresh": false,
-				 "navigationStyle": "custom"
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -87,21 +84,22 @@
 		"borderStyle": "grey",
 		"backgroundColor": "#ffffff",
 		"list": [{
-			"pagePath": "pages/index/index",
-			"iconPath": "static/images/聊天.png",
-			// "selectedIconPath": "static/image/icon_component_HL.png",
-			"text": "聊天"
-		}, {
-			"pagePath": "pages/API/index",
-			"iconPath": "static/images/Group 2.png",
-			// "selectedIconPath": "static/image/icon_API_HL.png",
-			"text": "e_chat"
-		},
-		{
-			"pagePath": "pages/login/login",
-			"iconPath": "static/images/Group 4.png",
-			// "selectedIconPath": "static/image/icon_API_HL.png",
-			"text": "未来"
-		}]
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/聊天.png",
+				// "selectedIconPath": "static/image/icon_component_HL.png",
+				"text": "聊天"
+			}, {
+				"pagePath": "pages/API/index",
+				"iconPath": "static/images/Group 2.png",
+				// "selectedIconPath": "static/image/icon_API_HL.png",
+				"text": "e_chat"
+			},
+			{
+				"pagePath": "pages/user_info/user_info",
+				"iconPath": "static/images/Group 4.png",
+				// "selectedIconPath": "static/image/icon_API_HL.png",
+				"text": "我"
+			}
+		]
 	}
 }
