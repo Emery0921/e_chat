@@ -1,20 +1,29 @@
 <template>
 	<view class="container">
-		<view class="header"><u-navbar :title="title" :autoBack="true" fixed border @leftClick="goBack"></u-navbar></view>
+		<view class="header">
+			<u-navbar :title="title" :autoBack="true" fixed border @leftClick="goBack"></u-navbar>
+		</view>
 		<scroll-view scroll-y class="chat" scroll-with-animation>
 			<view class="chat-main">
-				<view class="chat-ls">
-					<view class="chat-time">10:00</view>
-					<view class="msg-m msg-left">
-						<image src="../../server/app/public/emery/1655262869261.jpg" mode="" class="user-img"></image>
-						<view class="message"><view class="msg-text">你</view></view>
+				<view class="chat-ls" v-for="(item, index) in msgs" :key="index">
+					<view class="chat-time">{{ (item.time / 1000) | formatTime }}</view>
+					<view class="msg-m msg-left" v-if="item.userId != 'b'">
+						<image :src="item.imgurl" mode="" class="user-img"></image>
+						<view class="message" v-if="item.types == 0">
+							<view class="msg-text">{{ item.message }}</view>
+						</view>
+						<view class="message" v-if="item.types == 1">
+							<image :src="item.message" mode="widthFix" class="msg-img"></image>
+						</view>
 					</view>
-				</view>
-				<view class="chat-ls">
-					<view class="chat-time">10:00</view>
-					<view class="msg-m msg-right">
-						<image src="../../server/app/public/emery/1655262869261.jpg" mode="" class="user-img"></image>
-						<view class="message"><view class="msg-text">11111111111111111111111111111111111</view></view>
+					<view class="msg-m msg-right" v-if="item.userId != 'a'">
+						<image :src="item.imgurl" mode="" class="user-img"></image>
+						<view class="message" v-if="item.types == 0">
+							<view class="msg-text">{{ item.message }}</view>
+						</view>
+						<view class="message" v-if="item.types == 1">
+							<image :src="item.message" mode="widthFix" class="msg-img"></image>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -22,7 +31,12 @@
 		<view class="footer">
 			<view class="top">
 				<view class="iconfont icon-send_sound sound"></view>
-				<u--input border="surround" v-model="messageValue" @change="change" :customStyle="styleObj"></u--input>
+				<u--input
+					border="surround"
+					v-model="messageValue"
+					@change="change"
+					:customStyle="styleObj"
+				></u--input>
 				<view class="iconfont icon-xiaolian smile"></view>
 				<u-icon name="plus-circle" size="25"></u-icon>
 			</view>
@@ -37,6 +51,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import datas from '@/utils/data.js'
 export default {
 	data() {
 		return {
@@ -46,7 +62,8 @@ export default {
 				marginRight: '8px',
 				height: '18px',
 				margin: '5px 8px 5px 0'
-			}
+			},
+			msgs: [] //消息列表
 		}
 	},
 
@@ -61,9 +78,22 @@ export default {
 			console.log('change', e)
 		},
 		// 获取聊天信息
-		getMsg() {}
+		getMsg() {
+			let msg = datas()
+			for (let i = 0; i < msg.length; i++) {
+				msg[i].imgurl = '../../static/images/' + msg[i].imgurl
+				if (msg[i].types == 1) {
+					msg[i].message = '../../static/images/' + msg[i].message
+				}
+				this.msgs.unshift(msg[i])
+			}
+			console.log(this.msgs, 'msgs')
+		}
 	},
-	onLoad() {}
+
+	onLoad() {
+		this.getMsg()
+	}
 }
 </script>
 
@@ -143,6 +173,10 @@ export default {
 							padding: 8px 12px;
 						}
 					}
+					.msg-img {
+						max-width: 200px;
+						border-radius: 10px;
+					}
 				}
 				.msg-left {
 					.msg-text {
@@ -151,6 +185,9 @@ export default {
 						margin-left: 8px;
 						word-break: break-all;
 						word-wrap: break-word;
+					}
+					.msg-img {
+						margin-left: 8px;
 					}
 					.message::before {
 						content: '';
@@ -172,7 +209,9 @@ export default {
 						border-radius: 20px 0px 20px 20px;
 						margin-right: 8px;
 					}
-
+					.msg-img {
+						margin-right: 8px;
+					}
 					.message::after {
 						content: '';
 						width: 0;
